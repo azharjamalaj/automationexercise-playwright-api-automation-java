@@ -6,7 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="gorest-playwright-api-automation-java" />
+        <module name="automationexercise-playwright-api-automation-java" />
       </profile>
     </annotationProcessing>
   </component>
