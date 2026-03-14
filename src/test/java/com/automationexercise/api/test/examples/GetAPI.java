@@ -1,4 +1,4 @@
-package com.automationexercise.api.test;
+package com.automationexercise.api.test.examples;
 
 import com.automationexercise.api.test.base.BaseTest;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -33,12 +33,15 @@ public class GetAPI extends BaseTest {
     @Test
     public void getSpecificUser() throws IOException {
       APIResponse apiResponse=  apiRequestContext.get("https://automationexercise.com/api/productsList", RequestOptions.create()
-              .setQueryParam("id",1));
+              .setQueryParam("id",1)
+              .setQueryParam("brand","Polo"));
       int statusCode = apiResponse.status();
 
       ObjectMapper objectMapper = new ObjectMapper();
       JsonNode jsonNodeResponse =objectMapper.readTree(apiResponse.body());
+        String jsonPrettyResponse = jsonNodeResponse.toPrettyString();
 //       JsonNode userNode = jsonNodeResponse.get("products");
+        System.out.println(jsonPrettyResponse);
 
       Iterator<String> itr = jsonNodeResponse.fieldNames();
       while (itr.hasNext())
@@ -46,6 +49,8 @@ public class GetAPI extends BaseTest {
          String fieldname= itr.next();
           System.out.println(fieldname);
       }
+
+
 
     }
 
@@ -80,5 +85,6 @@ public class GetAPI extends BaseTest {
         List<HttpHeader> headerArray = apiResponse.headersArray();
         System.out.println(headerArray);
     }
+
 
 }
