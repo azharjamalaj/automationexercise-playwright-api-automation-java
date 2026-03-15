@@ -35,9 +35,7 @@ public class PostCallMethod extends BaseTest {
                 .setData(data));
 
 
-        System.out.println(apiResponse.status());
-
-        ObjectMapper objectMapper = new ObjectMapper();
+        System.out.println(apiResponse.status());  ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(apiResponse.body());
 
         System.out.println(jsonNode.toPrettyString());
