@@ -1,5 +1,6 @@
 package com.automationexercise.api.test.examples;
 
+import com.automationexercise.api.test.base.BaseAPI;
 import com.automationexercise.api.test.base.BaseTest;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,34 +13,43 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PostCallMethod extends BaseTest {
+public class PostCallMethod extends BaseAPI {
 
     @Test
-    public String createUSer() throws IOException {
-        Map<String, Object> jsonData = new HashMap<String, Object>();
-
-        String data =  "{\n" +
-                "    \"firstname\" : \"Jim\",\n" +
-                "    \"lastname\" : \"Brown\",\n" +
-                "    \"totalprice\" : 111,\n" +
-                "    \"depositpaid\" : true,\n" +
-                "    \"bookingdates\" : {\n" +
-                "        \"checkin\" : \"2018-01-01\",\n" +
-                "        \"checkout\" : \"2019-01-01\"\n" +
-                "    },\n" +
-                "    \"additionalneeds\" : \"Breakfast\"\n" +
-                "}'";
+    public void createUserNewWay() throws IOException {
+        Map<String, Object> bookingdates = new HashMap<String,Object>();
+        bookingdates.put("checkin","2026-04-01");
+        bookingdates.put("checkout","2026-05-01");
+        Map<String, Object> jsonData = new HashMap<String,Object>();
         jsonData.put("firstname", "Azhar");
-        APIResponse apiResponse =apiRequestContext.post("https://restful-booker.herokuapp.com/booking" , RequestOptions.create()
+        jsonData.put("lastname", "Jamal");
+        jsonData.put("totalprice", "2000");
+        jsonData.put("bookingdates", bookingdates);
+        jsonData.put("depositpaid", "true");
+        jsonData.put("additionalneeds", "Breakfast");
+
+        System.out.println(
+                jsonData
+        );
+
+       APIResponse apiResponse= apiRequestContext.post("/booking", RequestOptions.create()
                 .setHeader("Content-Type", "application/json")
-                .setData(data));
+                .setData(jsonData));
 
+       int status = apiResponse.status();
+        System.out.println(status);
 
-        System.out.println(apiResponse.status());  ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonNode = objectMapper.readTree(apiResponse.body());
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode =objectMapper.readTree(apiResponse.body());
 
         System.out.println(jsonNode.toPrettyString());
 
-        return "1111";
+        String bookingID = String.valueOf(jsonNode.get("bookingid"));
+        System.out.println(bookingID);
+
+
+        APIResponse apiResponse1 =apiRequestContext.get(apiResponse.url()+"/"+bookingID, RequestOptions.create().setHeader("Content-Type", "application/json"));
+        System.out.println(apiResponse1.status());
+        System.out.println(apiResponse1.statusText());
     }
 }
