@@ -29,13 +29,7 @@ public class ApiDisposeMethod {
 
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode =objectMapper.readTree(apiResponse.body());
-
         System.out.println(jsonNode.toPrettyString());
         System.out.println(jsonNode.get("bookingdates").get("checkin"));
-
-
-
-
-
     }
 }
